@@ -19,6 +19,10 @@ func setupMockData() -> URLSession {
     return mockSession
 }
 
+func tearDownMockData () -> Void {
+    MockURLProtocol.mockedData = nil
+}
+
 /**
     we add the below to override CountriesServiceError's equatability
  */
@@ -58,6 +62,7 @@ final class CountriesServiceTests: XCTestCase {
     
     override func tearDown() {
         super.tearDown()
+        tearDownMockData()
         countriesService = nil
     }
     

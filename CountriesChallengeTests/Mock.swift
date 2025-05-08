@@ -36,5 +36,6 @@ class MockURLProtocol: URLProtocol {
         // Once done, inform that loading is complete
         self.client?.urlProtocolDidFinishLoading(self)
     }
+    override func stopLoading() {}
 }
 
