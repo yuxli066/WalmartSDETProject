@@ -10,6 +10,16 @@ import XCTest
 import Foundation
 
 /**
+    setup Mock session
+ */
+func setupMockData() -> URLSession {
+    let config = URLSessionConfiguration.ephemeral
+    config.protocolClasses = [MockURLProtocol.self]
+    let mockSession = URLSession(configuration: config)
+    return mockSession
+}
+
+/**
     we add the below to override CountriesServiceError's equatability
  */
 extension CountriesServiceError: @retroactive Equatable {
@@ -28,7 +38,8 @@ extension CountriesServiceError: @retroactive Equatable {
                            lhsNSError.userInfo["NSLocalizedDescription"] as? String == rhsNSError.userInfo["NSLocalizedDescription"] as? String &&
                            lhsNSError.userInfo["NSErrorFailingURLStringKey"] as? String == rhsNSError.userInfo["NSErrorFailingURLStringKey"] as? String
                 }
-                return false // If not NSError, we return false
+                /* TODO: If not NSError, we return false, we just need to test if system lv ERRORs are wrapped by .failure. We can add more custom ERRORs. */
+                return false
             default:
                 return false
         }
@@ -84,34 +95,68 @@ final class CountriesServiceTests: XCTestCase {
         }
     }
     
-    func test_fetch_countries_valid_data() async throws -> [Country]? {
-        let validMockedData:Data? = nil
-        /**
-            In production settings, we can use actual libraries to mock client reqs, but for the scope of this project, we'll just use a simple function
-         */
-        func pretendAsyncRequest(_ mockData: Data?, continuation:UnsafeContinuation<[Country], any Error>, completion: @escaping (Result<[Country]?, Error>) -> Void) {
-            let url = URL(string: "https://example.com")!
-            let task = URLSession.shared.dataTask(with: url) { data, response, error in
-                // NOTE: This is the function under test
-                do {
-                    self.countriesService.validateData(mockData, continuation:continuation)
-                    let decodedMockData = try JSONDecoder().decode([Country].self, from: mockData!)
-                    completion(.success(decodedMockData))
-                } catch {
-                    completion(.failure(error))
-                }
-            }
-            task.resume()
-        }
-        return try await withUnsafeThrowingContinuation { continuation in
-            pretendAsyncRequest(validMockedData, continuation:continuation) { result in
-                switch result {
-                    case .success(let value):
-                    continuation.resume(returning: value!)
-                    case .failure(let error):
-                        continuation.resume(throwing: error)
-                }
-            }
+    func test_fetch_countries_invalid_data() async {
+        let expectedError = CountriesServiceError.invalidData;
+        do {
+            let session = setupMockData()
+            let _ = try await countriesService.fetchCountries(using:session)
+            XCTFail("Expected error, but function succeeded")
+        } catch {
+            XCTAssertEqual(error as? CountriesServiceError, expectedError, "invalid_data test failed")
         }
     }
+    
+    func test_fetch_countries_decoding_failure() async {
+        let expectedError = CountriesServiceError.failure(CountriesParserError.decodingFailure)
+        MockURLProtocol.mockedData = "Some invalid data string that should throw decoding failure".data(using: .utf8)!
+        do {
+            let session = setupMockData()
+            let _ = try await countriesService.fetchCountries(using:session)
+            XCTFail("Expected error, but function succeeded")
+        } catch {
+            XCTAssertEqual(error as? CountriesServiceError, expectedError, ".failure(decodingFailure) test failed")
+        }
+    }
+    
+    func test_fetch_countries_NSErrorHostName_failure() async {
+        let validFormatUnfoundURL = "https://validurlbutnotvalid.com/"
+        let error = NSError(
+            domain: NSURLErrorDomain,
+            code: NSURLErrorCannotFindHost,
+            userInfo: [
+                "NSLocalizedDescription": "A server with the specified hostname could not be found.",
+                "NSErrorFailingURLStringKey": validFormatUnfoundURL
+            ]
+        )
+        let expectedError = CountriesServiceError.failure(error)
+        do {
+            countriesService.url_string = validFormatUnfoundURL
+            let _ = try await countriesService.fetchCountries()
+            XCTFail("Expected error, but function succeeded")
+        } catch {
+            XCTAssertEqual(error as? CountriesServiceError, expectedError, ".failure(NSError - hostname) test failed")
+        }
+    }
+    
+    func test_fetch_countries_NSErrorDomainName_failure() async {
+        let validFormatUnfoundURL = "https://validurlbutnotvalid.com/"
+        let error = NSError(
+            domain: NSURLErrorDomain,
+            code: NSURLErrorCannotFindHost,
+            userInfo: [
+                "NSLocalizedDescription": "A server with the specified hostname could not be found.",
+                "NSErrorFailingURLStringKey": validFormatUnfoundURL
+            ]
+        )
+        let expectedError = CountriesServiceError.failure(error)
+        do {
+            countriesService.url_string = validFormatUnfoundURL
+            let _ = try await countriesService.fetchCountries()
+            XCTFail("Expected error, but function succeeded")
+        } catch {
+            XCTAssertEqual(error as? CountriesServiceError, expectedError, ".failure(NSError - hostname) test failed")
+        }
+    }
+    
+    
 }

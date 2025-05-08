@@ -22,7 +22,8 @@ class CountriesService {
     private let countriesParser = CountriesParser()
     
     public var url_string: String {
-        return urlString
+        get { return urlString }
+        set { urlString = newValue }
     }
     /**
        Validates URL String
@@ -52,26 +53,18 @@ class CountriesService {
         }
     }
     
-    /**
-      Data cannot be nil, we can add more validations here as well, such as data length, countries to include, etc.
-     */
-    func validateData(_ data: Data?, continuation: UnsafeContinuation<[Country], any Error>) -> Any {
-        guard let data = data else {
-            return continuation.resume(throwing: CountriesServiceError.invalidData)
-        }
-        return data
-    }
-    
-    func fetchCountries() async throws -> [Country] {
+    func fetchCountries(using session: URLSession = .shared) async throws -> [Country] {
         let url = try validateURL(url:urlString)
         
         return try await withUnsafeThrowingContinuation { continuation in
-            let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            let task = session.dataTask(with: url) { [weak self] data, response, error in
                 if let error = error {
                     return continuation.resume(throwing: CountriesServiceError.failure(error))
                 }
-                let data = self?.validateData(data, continuation: continuation)
-                let result = self?.countriesParser.parser(data as? Data)
+                guard let data = data, !data.isEmpty else {
+                    return continuation.resume(throwing: CountriesServiceError.invalidData)
+                }
+                let result = self?.countriesParser.parser(data)
                 switch result {
                     case .success(let countries):
                         let countries = countries ?? []
