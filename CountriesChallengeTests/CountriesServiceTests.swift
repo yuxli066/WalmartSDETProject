@@ -51,25 +51,32 @@ final class CountriesServiceTests: XCTestCase {
     }
     
     /**
+        Valid URL should not throw error
+     */
+    func test_fetch_countries_valid_url() async {
+        let defaultURLString = countriesService.url_string;
+        XCTAssertNoThrow(try countriesService.validateURL(url:defaultURLString), "valid url failed for input \"\(countriesService.url_string)\"")
+    }
+    
+    /**
         Note, the original guard is actually implemented incorrectly, error thrown is @ network lv, not @ service lv
      */
-    func test_fetch_countries_invalid_url() async {
-        let invalidUrlString = ["htpqweqweq_invalidString", "http", "https", "123321", "lalalal"]
+    func test_fetch_countries_invalid_url_string() async {
+        let invalidUrlString = [
+            "",
+            " ",
+            "http://thisisHTTPnotHTTPS.com",
+            "www.noscheme.com",
+            "https://example.com/this has spaces",
+            "https://example.com/path\\to\\file",
+            "https://example.com/%badpercent",
+            "https://example.com/..",
+        ]
         for invalidURL in invalidUrlString {
             print("Testing URL: \"\(invalidURL)\"")
-            let error = NSError(
-                domain: NSURLErrorDomain,
-                code: NSURLErrorUnsupportedURL,
-                userInfo: [
-                    "NSLocalizedDescription": "unsupported URL",
-                    "NSErrorFailingURLStringKey": invalidURL
-                ]
-            )
-            let expectedError = CountriesServiceError.failure(error);
-            countriesService.url_string = invalidURL;
-            
+            let expectedError = CountriesServiceError.invalidUrl(invalidURL);
             do {
-                _ = try await countriesService.fetchCountries()
+                _ = try countriesService.validateURL(url:invalidURL)
                 XCTFail("Expected error, but function succeeded, for url: \"\(invalidURL)\"")
             } catch {
                 XCTAssertEqual(error as? CountriesServiceError, expectedError, "invalid_url failed for input \"\(invalidURL)\"")

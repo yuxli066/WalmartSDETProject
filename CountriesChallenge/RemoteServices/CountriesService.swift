@@ -18,21 +18,43 @@ protocol CountriesServiceRequestDelegate: AnyObject {
 
 class CountriesService {
     
-    // used for testing, define a getter/setter to set url string
-    open var url_string: String {
-        get { urlString }
-        set { urlString = newValue }
+    private var urlString = "https://gist.githubusercontent.com/peymano-wmt/32dcb892b06648910ddd40406e37fdab/raw/db25946fd77c5873b0303b858e861ce724e0dcd0/countries.json"
+    private let countriesParser = CountriesParser()
+    
+    public var url_string: String {
+        return urlString
+    }
+    /**
+       Validates URL String
+     */
+    func validateURL(url:String) throws -> URL {
+        guard
+            let apiURL = URL(string: url),
+            apiURL.scheme == "https",
+            let host = apiURL.host,
+            !host.isEmpty
+        else {
+            throw CountriesServiceError.invalidUrl(url)
+        }
+        
+        // use regex to check for invalid urls
+        let pattern = #"^https:\/\/[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(:[0-9]+)?(\/[^\s\\]*)?$"#
+        let invalidPercentagePattern = #"%(?![0-9A-Fa-f]{2}(?![0-9A-Fa-f]))"#
+        
+        if url.range(of: pattern, options: .regularExpression) != nil, !url.contains("..") {
+            if url.range(of: invalidPercentagePattern, options: .regularExpression) != nil {
+                throw CountriesServiceError.invalidUrl(url)
+            } else {
+                return apiURL
+            }
+        } else {
+            throw CountriesServiceError.invalidUrl(url)
+        }
     }
     
-    private var urlString = "https://gist.githubusercontent.com/peymano-wmt/32dcb892b06648910ddd40406e37fdab/raw/db25946fd77c5873b0303b858e861ce724e0dcd0/countries.json"
-
-    private let countriesParser = CountriesParser()
-
     func fetchCountries() async throws -> [Country] {
-        guard let url = URL(string: urlString) else {
-            throw CountriesServiceError.invalidUrl(urlString)
-        }
-
+        let url = try validateURL(url:urlString)
+        
         return try await withUnsafeThrowingContinuation { continuation in
             let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
                 if let error = error {
