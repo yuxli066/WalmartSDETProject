@@ -61,7 +61,7 @@ final class CountriesServiceTests: XCTestCase {
     /**
         Note, the original guard is actually implemented incorrectly, error thrown is @ network lv, not @ service lv
      */
-    func test_fetch_countries_invalid_url_string() async {
+    func test_fetch_countries_invalid_url() {
         let invalidUrlString = [
             "",
             " ",
@@ -82,5 +82,19 @@ final class CountriesServiceTests: XCTestCase {
                 XCTAssertEqual(error as? CountriesServiceError, expectedError, "invalid_url failed for input \"\(invalidURL)\"")
             }
         }
+    }
+    
+    func test_fetch_countries_valid_data() async {
+        let validData = Country(
+            capital: "Beijing",
+            code: "020",
+            currency: Currency(code: "Yuan", name: "Yuan", symbol: ""),
+            flag: "Chinese Flag",
+            language: Language(code: "", name: "Chinese"),
+            name: "China",
+            region: "Asia"
+        )
+        
+        XCTAssertNoThrow(try countriesService.validateURL(url:defaultURLString), "valid url failed for input \"\(countriesService.url_string)\"")
     }
 }

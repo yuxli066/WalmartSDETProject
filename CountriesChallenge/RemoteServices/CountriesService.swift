@@ -9,7 +9,7 @@ enum CountriesServiceError: Error {
     case failure(Error)
     case invalidUrl(String)
     case invalidData
-    case decodingFailure
+    case decodingFailure // This is never used, so we do not need to test.
 }
 
 protocol CountriesServiceRequestDelegate: AnyObject {
@@ -52,6 +52,16 @@ class CountriesService {
         }
     }
     
+    /**
+      Data cannot be nil, we can add more validations here as well, such as data length, countries to include, etc.
+     */
+    func validateData(_ data: Data?, continuation: UnsafeContinuation<[Country], any Error>) -> Any {
+        guard let data = data else {
+            return continuation.resume(throwing: CountriesServiceError.invalidData)
+        }
+        return data
+    }
+    
     func fetchCountries() async throws -> [Country] {
         let url = try validateURL(url:urlString)
         
@@ -60,10 +70,8 @@ class CountriesService {
                 if let error = error {
                     return continuation.resume(throwing: CountriesServiceError.failure(error))
                 }
-                guard let data = data else {
-                    return continuation.resume(throwing: CountriesServiceError.invalidData)
-                }
-                let result = self?.countriesParser.parser(data)
+                let data = self?.validateData(data, continuation: continuation)
+                let result = self?.countriesParser.parser(data as? Data)
                 switch result {
                     case .success(let countries):
                         let countries = countries ?? []
