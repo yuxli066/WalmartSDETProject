@@ -70,12 +70,25 @@ final class CountriesServiceTests: XCTestCase {
     }
     
     /**
+         User should be able to retrieve Data without issue
+     */
+    func test_fetch_countries_valid_data() async throws {
+        do {
+            let countries = try await countriesService.fetchCountries()
+            XCTAssertNotNil(countries, "Countries should not be nil")
+        } catch {
+            XCTFail("fetchCountries() threw an error: \(error)")
+        }
+    }
+    
+    /**
         Note, the original guard is actually implemented incorrectly, error thrown is @ network lv, not @ service lv
      */
     func test_fetch_countries_invalid_url() {
         let invalidUrlString = [
             "",
             " ",
+            "invalid_url",
             "http://thisisHTTPnotHTTPS.com",
             "www.noscheme.com",
             "https://example.com/this has spaces",
@@ -118,6 +131,18 @@ final class CountriesServiceTests: XCTestCase {
         }
     }
     
+    func test_fetch_countries_decoding_failure_500() async {
+        let url_500 = "https://httpstat.us/500"
+        let expectedError = CountriesServiceError.failure(CountriesParserError.decodingFailure)
+        do {
+            countriesService.url_string = url_500
+            let _ = try await countriesService.fetchCountries()
+            XCTFail("Expected error, but function succeeded")
+        } catch {
+            XCTAssertEqual(error as? CountriesServiceError, expectedError, ".failure(decodingFailure) 500 resp test failed")
+        }
+    }
+    
     func test_fetch_countries_NSErrorHostName_failure() async {
         let validFormatUnfoundURL = "https://validurlbutnotvalid.com/"
         let error = NSError(
@@ -134,29 +159,27 @@ final class CountriesServiceTests: XCTestCase {
             let _ = try await countriesService.fetchCountries()
             XCTFail("Expected error, but function succeeded")
         } catch {
-            XCTAssertEqual(error as? CountriesServiceError, expectedError, ".failure(NSError - hostname) test failed")
+            XCTAssertEqual(error as? CountriesServiceError, expectedError, ".failure(NSError - hostname not found) test failed")
         }
     }
     
-    func test_fetch_countries_NSErrorDomainName_failure() async {
-        let validFormatUnfoundURL = "https://validurlbutnotvalid.com/"
+    func test_fetch_countries_NSErrorTimeout_failure() async {
+        let timeoutURL = "https://httpstat.us/200?sleep=60000"
         let error = NSError(
             domain: NSURLErrorDomain,
-            code: NSURLErrorCannotFindHost,
+            code: NSURLErrorTimedOut,
             userInfo: [
-                "NSLocalizedDescription": "A server with the specified hostname could not be found.",
-                "NSErrorFailingURLStringKey": validFormatUnfoundURL
+                "NSLocalizedDescription": "The request timed out.",
+                "NSErrorFailingURLStringKey": timeoutURL
             ]
         )
         let expectedError = CountriesServiceError.failure(error)
         do {
-            countriesService.url_string = validFormatUnfoundURL
+            countriesService.url_string = timeoutURL
             let _ = try await countriesService.fetchCountries()
             XCTFail("Expected error, but function succeeded")
         } catch {
-            XCTAssertEqual(error as? CountriesServiceError, expectedError, ".failure(NSError - hostname) test failed")
+            XCTAssertEqual(error as? CountriesServiceError, expectedError, ".failure(NSError - invalid url) test failed")
         }
     }
-    
-    
 }
