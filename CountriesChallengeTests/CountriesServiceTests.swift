@@ -84,17 +84,34 @@ final class CountriesServiceTests: XCTestCase {
         }
     }
     
-    func test_fetch_countries_valid_data() async {
-        let validData = Country(
-            capital: "Beijing",
-            code: "020",
-            currency: Currency(code: "Yuan", name: "Yuan", symbol: ""),
-            flag: "Chinese Flag",
-            language: Language(code: "", name: "Chinese"),
-            name: "China",
-            region: "Asia"
-        )
-        
-        XCTAssertNoThrow(try countriesService.validateURL(url:defaultURLString), "valid url failed for input \"\(countriesService.url_string)\"")
+    func test_fetch_countries_valid_data() async throws -> [Country]? {
+        let validMockedData:Data? = nil
+        /**
+            In production settings, we can use actual libraries to mock client reqs, but for the scope of this project, we'll just use a simple function
+         */
+        func pretendAsyncRequest(_ mockData: Data?, continuation:UnsafeContinuation<[Country], any Error>, completion: @escaping (Result<[Country]?, Error>) -> Void) {
+            let url = URL(string: "https://example.com")!
+            let task = URLSession.shared.dataTask(with: url) { data, response, error in
+                // NOTE: This is the function under test
+                do {
+                    self.countriesService.validateData(mockData, continuation:continuation)
+                    let decodedMockData = try JSONDecoder().decode([Country].self, from: mockData!)
+                    completion(.success(decodedMockData))
+                } catch {
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        }
+        return try await withUnsafeThrowingContinuation { continuation in
+            pretendAsyncRequest(validMockedData, continuation:continuation) { result in
+                switch result {
+                    case .success(let value):
+                    continuation.resume(returning: value!)
+                    case .failure(let error):
+                        continuation.resume(throwing: error)
+                }
+            }
+        }
     }
 }
