@@ -24,6 +24,7 @@
 		B06D6E9229FAFC6A0021F303 /* CountryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B06D6E9129FAFC6A0021F303 /* CountryDetailViewController.swift */; };
 		B64489132DCC0C120032655E /* CountriesServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64489122DCC0C120032655E /* CountriesServiceTests.swift */; };
 		B69A42762DCD38060027E55A /* Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69A42752DCD38060027E55A /* Mock.swift */; };
+		B69A42782DCD87200027E55A /* CountryCellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69A42772DCD87200027E55A /* CountryCellTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		B06D6E9129FAFC6A0021F303 /* CountryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryDetailViewController.swift; sourceTree = "<group>"; };
 		B64489122DCC0C120032655E /* CountriesServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesServiceTests.swift; sourceTree = "<group>"; };
 		B69A42752DCD38060027E55A /* Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mock.swift; sourceTree = "<group>"; };
+		B69A42772DCD87200027E55A /* CountryCellTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCellTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +137,7 @@
 				69EED4FE28CBC1B000ED4A20 /* CountriesChallengeTests.swift */,
 				B64489122DCC0C120032655E /* CountriesServiceTests.swift */,
 				B69A42752DCD38060027E55A /* Mock.swift */,
+				B69A42772DCD87200027E55A /* CountryCellTests.swift */,
 			);
 			path = CountriesChallengeTests;
 			sourceTree = "<group>";
@@ -338,6 +341,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B69A42782DCD87200027E55A /* CountryCellTests.swift in Sources */,
 				B64489132DCC0C120032655E /* CountriesServiceTests.swift in Sources */,
 				69EED4FF28CBC1B000ED4A20 /* CountriesChallengeTests.swift in Sources */,
 				B69A42762DCD38060027E55A /* Mock.swift in Sources */,

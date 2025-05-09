@@ -90,5 +90,10 @@ class CountryCell: UITableViewCell {
         nameAndRegionLabel.text = "\(country.name), \(country.region)"
         codeLabel.text = country.code
         capitalLabel.text = country.capital
+        
+        // adding accessibility identifiers so we can target them in unit tests.
+        nameAndRegionLabel.accessibilityIdentifier = "nameAndRegionLabel"
+        codeLabel.accessibilityIdentifier = "codeLabel"
+        capitalLabel.accessibilityIdentifier = "capitalLabel"
     }
 }
