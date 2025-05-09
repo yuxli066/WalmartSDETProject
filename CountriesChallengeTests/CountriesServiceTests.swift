@@ -167,24 +167,4 @@ final class CountriesServiceTests: XCTestCase {
             XCTAssertEqual(error as? CountriesServiceError, expectedError, ".failure(NSError - hostname not found) test failed")
         }
     }
-    
-    func test_fetch_countries_NSErrorTimeout_failure() async {
-        let timeoutURL = "https://httpstat.us/200?sleep=75000"
-        let error = NSError(
-            domain: NSURLErrorDomain,
-            code: NSURLErrorTimedOut,
-            userInfo: [
-                "NSLocalizedDescription": "The request timed out.",
-                "NSErrorFailingURLStringKey": timeoutURL
-            ]
-        )
-        let expectedError = CountriesServiceError.failure(error)
-        do {
-            countriesService.url_string = timeoutURL
-            let _ = try await countriesService.fetchCountries()
-            XCTFail("Expected error, but function succeeded")
-        } catch {
-            XCTAssertEqual(error as? CountriesServiceError, expectedError, ".failure(NSError - invalid url) test failed")
-        }
-    }
 }

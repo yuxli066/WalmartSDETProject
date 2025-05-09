@@ -14,6 +14,15 @@ import Foundation
  then test to see if the cell is configured correctly with the correct content by manually passing country data to the cell.
  */
 final class CountryCellTests: XCTestCase {
+    
+    override func setUp() {
+        super.setUp()
+    }
+    
+    override func tearDown() {
+        super.tearDown()
+    }
+    
     func test_country_cell_configuration() {
         let mockCountry = Country(
                             capital: "Beijing",

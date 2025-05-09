@@ -34,7 +34,12 @@ class CountriesViewController: UIViewController {
     
     #if DEBUG
         var _countries: [Country] {
-            return countries
+            get {
+                return countries
+            }
+            set {
+                viewModel.countriesSubject.value = newValue
+            }
         }
         var _filtered_countries: [Country] {
             return filteredCountries

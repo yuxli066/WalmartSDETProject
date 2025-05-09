@@ -17,6 +17,8 @@ final class CountriesViewControllerTest: XCTestCase {
     override func setUp() {
         super.setUp()
         countryViewController = CountriesViewController()
+        // We inject 3 countries in viewModel, then we validate cells rendered
+        countryViewController._countries = sampleCountries
     }
     
     override func tearDown() {
@@ -53,10 +55,6 @@ final class CountriesViewControllerTest: XCTestCase {
     
     // num countries count
     func test_country_count() {
-        // We inject 3 countries in viewModel, then we validate count
-        countryViewController.view_model.countriesSubject.send(sampleCountries)
-        countryViewController.loadViewIfNeeded()
-        
         // Assert the expected row count
         let actualCount = countryViewController.tableView(
             countryViewController.table_view,
@@ -67,10 +65,6 @@ final class CountriesViewControllerTest: XCTestCase {
     
     // row country data rendering
     func test_cell_render_row0() {
-        // We inject 3 countries in viewModel, then we validate cells rendered
-        countryViewController.view_model.countriesSubject.send(sampleCountries)
-        countryViewController.loadViewIfNeeded()
-        
         let testIndex = IndexPath(row: 0, section: 0) // row 0
         
         // Assert the correct cells are being displayed
@@ -85,10 +79,6 @@ final class CountriesViewControllerTest: XCTestCase {
     }
     
     func test_cell_render_row1() {
-        // We inject 3 countries in viewModel, then we validate cells rendered
-        countryViewController.view_model.countriesSubject.send(sampleCountries)
-        countryViewController.loadViewIfNeeded()
-        
         let testIndex = IndexPath(row: 1, section: 0) // row 1
         
         // Assert the correct cells are being displayed
@@ -107,14 +97,10 @@ final class CountriesViewControllerTest: XCTestCase {
         // set search bar text to empty or ""
         countryViewController.search_controller.searchBar.text = ""
         countryViewController.updateSearchResults(for: countryViewController.search_controller)
-        XCTAssertEqual(countryViewController._filtered_countries.count, 0)
+        XCTAssertEqual(countryViewController._filtered_countries.count, 3)
     }
     
-    func test_search_result_func_when_search_text_is_not_empty() {
-        // We inject 3 countries in viewModel, then we validate cells rendered
-        countryViewController.view_model.countriesSubject.send(sampleCountries)
-        countryViewController.loadViewIfNeeded()
-        
+    func test_search_result_func_when_search_text_is_not_empty() throws {
         // Assert the expected row count
         let actualCount = countryViewController.tableView(
             countryViewController.table_view,
@@ -125,7 +111,6 @@ final class CountriesViewControllerTest: XCTestCase {
         // set search bar text to custom search country name
         countryViewController.search_controller.searchBar.text = "testing".lowercased()
         countryViewController.updateSearchResults(for: countryViewController.search_controller)
-        countryViewController.loadViewIfNeeded()
         
         // Assert search res
         XCTAssertEqual(countryViewController._filtered_countries.count, 1)

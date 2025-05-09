@@ -10,6 +10,15 @@ import XCTest
 import Foundation
 
 final class CountryDetailViewControllerTest: XCTestCase {
+    
+    override func setUp() {
+        super.setUp()
+    }
+    
+    override func tearDown() {
+        super.tearDown()
+    }
+    
     func test_country_detail_view_controller_configuration() {
         let mockCountry = Country(
                             capital: "Beijing",
