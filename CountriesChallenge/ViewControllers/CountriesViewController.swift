@@ -31,6 +31,15 @@ class CountriesViewController: UIViewController {
         }
         return viewModel.countriesSubject.value
     }
+    
+    #if DEBUG
+        var view_model: CountriesViewModel {
+            return viewModel
+        }
+        var table_view: UITableView {
+            return tableView
+        }
+    #endif
 
     private var filteredCountries: [Country] = []
 

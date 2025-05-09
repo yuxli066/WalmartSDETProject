@@ -25,6 +25,7 @@
 		B69A42762DCD38060027E55A /* Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69A42752DCD38060027E55A /* Mock.swift */; };
 		B69A42782DCD87200027E55A /* CountryCellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69A42772DCD87200027E55A /* CountryCellTests.swift */; };
 		B69A427A2DCD98060027E55A /* CountryDetailViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69A42792DCD98060027E55A /* CountryDetailViewControllerTest.swift */; };
+		B69A427C2DCDD6FE0027E55A /* CountriesViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69A427B2DCDD6FE0027E55A /* CountriesViewControllerTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		B69A42752DCD38060027E55A /* Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mock.swift; sourceTree = "<group>"; };
 		B69A42772DCD87200027E55A /* CountryCellTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCellTests.swift; sourceTree = "<group>"; };
 		B69A42792DCD98060027E55A /* CountryDetailViewControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryDetailViewControllerTest.swift; sourceTree = "<group>"; };
+		B69A427B2DCDD6FE0027E55A /* CountriesViewControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesViewControllerTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +140,7 @@
 				B69A42752DCD38060027E55A /* Mock.swift */,
 				B69A42772DCD87200027E55A /* CountryCellTests.swift */,
 				B69A42792DCD98060027E55A /* CountryDetailViewControllerTest.swift */,
+				B69A427B2DCDD6FE0027E55A /* CountriesViewControllerTest.swift */,
 			);
 			path = CountriesChallengeTests;
 			sourceTree = "<group>";
@@ -343,6 +346,7 @@
 			files = (
 				B69A42782DCD87200027E55A /* CountryCellTests.swift in Sources */,
 				B64489132DCC0C120032655E /* CountriesServiceTests.swift in Sources */,
+				B69A427C2DCDD6FE0027E55A /* CountriesViewControllerTest.swift in Sources */,
 				B69A427A2DCD98060027E55A /* CountryDetailViewControllerTest.swift in Sources */,
 				B69A42762DCD38060027E55A /* Mock.swift in Sources */,
 			);
