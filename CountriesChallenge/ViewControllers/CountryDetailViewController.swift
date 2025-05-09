@@ -98,5 +98,10 @@ class CountryDetailViewController: UIViewController {
         nameAndRegionLabel.text = "\(country.name), \(country.region)"
         codeLabel.text = country.code
         capitalLabel.text = country.capital
+        
+        // same as country cell, we are adding this here for accessibility
+        nameAndRegionLabel.accessibilityIdentifier = "nameAndRegionLabel"
+        codeLabel.accessibilityIdentifier = "codeLabel"
+        capitalLabel.accessibilityIdentifier = "capitalLabel"
     }
 }

@@ -1,5 +1,5 @@
 //
-//  CountryCellTests.swift
+//  CountryDetailViewControllerTest.swift
 //  CountriesChallengeTests
 //
 //  Created by Leo Li on 5/8/25.
@@ -9,12 +9,8 @@
 import XCTest
 import Foundation
 
-/**
- To unit test country cells, we only need to spin up an instance of a country cell,
- then test to see if the cell is configured correctly with the correct content by manually passing country data to the cell.
- */
-final class CountryCellTests: XCTestCase {
-    func test_country_cell_configuration() {
+final class CountryDetailViewControllerTest: XCTestCase {
+    func test_country_detail_view_controller_configuration() {
         let mockCountry = Country(
                             capital: "Beijing",
                             code: "CN",
@@ -24,8 +20,8 @@ final class CountryCellTests: XCTestCase {
                             name: "China",
                             region: "AS")
         
-        let cell = CountryCell(style: .default, reuseIdentifier: CountryCell.identifier)
-        cell.configure(country: mockCountry)
+        let countryDetails = CountryDetailViewController(country: mockCountry)
+        countryDetails.loadViewIfNeeded()
         
         func findLabel(withId id: String, in view: UIView) -> UILabel? {
             if let label = view as? UILabel, label.accessibilityIdentifier == id {
@@ -39,12 +35,13 @@ final class CountryCellTests: XCTestCase {
             return nil
         }
         
-        let nameAndRegion = findLabel(withId: "nameAndRegionLabel", in: cell)
-        let code = findLabel(withId: "codeLabel", in: cell)
-        let capital = findLabel(withId: "capitalLabel", in: cell)
+        let nameAndRegion = findLabel(withId: "nameAndRegionLabel", in: countryDetails.view)
+        let code = findLabel(withId: "codeLabel", in: countryDetails.view)
+        let capital = findLabel(withId: "capitalLabel", in: countryDetails.view)
         
         XCTAssertEqual(nameAndRegion?.text, "\(mockCountry.name), \(mockCountry.region)")
         XCTAssertEqual(code?.text, mockCountry.code)
         XCTAssertEqual(capital?.text, mockCountry.capital)
     }
+
 }
