@@ -169,7 +169,7 @@ final class CountriesServiceTests: XCTestCase {
     }
     
     func test_fetch_countries_NSErrorTimeout_failure() async {
-        let timeoutURL = "https://httpstat.us/200?sleep=60000"
+        let timeoutURL = "https://httpstat.us/200?sleep=75000"
         let error = NSError(
             domain: NSURLErrorDomain,
             code: NSURLErrorTimedOut,
