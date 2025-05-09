@@ -11,9 +11,10 @@ class CountriesViewModel {
 
     private(set) var countriesSubject = CurrentValueSubject<[Country], Never>([])
     private(set) var errorSubject = CurrentValueSubject<Error?, Never>(nil)
-
+    private var _countryTask: Task<Void, Never>?
+    
     func refreshCountries() {
-        Task {
+        _countryTask = Task {
             do {
                 let countries = try await service.fetchCountries()
                 self.countriesSubject.value = countries
@@ -22,4 +23,11 @@ class CountriesViewModel {
             }
         }
     }
+    
+    #if DEBUG
+    func cancelAllTasks() {
+        _countryTask?.cancel()
+        _countryTask = nil
+    }
+    #endif
 }

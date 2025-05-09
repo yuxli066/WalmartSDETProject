@@ -17,6 +17,8 @@ final class CountriesViewControllerTest: XCTestCase {
     override func setUp() {
         super.setUp()
         countryViewController = CountriesViewController()
+        _ = countryViewController.view // wait for view load
+        countryViewController.view_model.cancelAllTasks() // cancel all tasks for data consistency
         // We inject 3 countries in viewModel, then we validate cells rendered
         countryViewController._countries = sampleCountries
     }
@@ -114,6 +116,13 @@ final class CountriesViewControllerTest: XCTestCase {
         
         // Assert search res
         XCTAssertEqual(countryViewController._filtered_countries.count, 1)
+        
+        // need extra guard here after above assertion.
+        guard countryViewController._filtered_countries.count >= 1 else {
+            XCTFail("Array has fewer elements than expected: \(countryViewController._filtered_countries.count) < 1")
+            return
+        }
+        
         XCTAssertEqual(countryViewController._filtered_countries[0].capital, sampleCountries[2].capital)
         XCTAssertEqual(countryViewController._filtered_countries[0].name, sampleCountries[2].name)
         XCTAssertEqual(countryViewController._filtered_countries[0].region, sampleCountries[2].region)
