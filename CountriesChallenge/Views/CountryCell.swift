@@ -61,6 +61,18 @@ class CountryCell: UITableViewCell {
         view.font = .preferredFont(forTextStyle: .body)
         return view
     }()
+    
+    #if DEBUG
+        var name_and_region_label: UILabel {
+            return nameAndRegionLabel
+        }
+        var code_label: UILabel {
+            return codeLabel
+        }
+        var capital_label: UILabel {
+            return capitalLabel
+        }
+    #endif
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

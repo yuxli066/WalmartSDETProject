@@ -33,6 +33,20 @@ class CountriesViewController: UIViewController {
     }
     
     #if DEBUG
+        var _countries: [Country] {
+            return countries
+        }
+        var _filtered_countries: [Country] {
+            return filteredCountries
+        }
+        var search_controller: UISearchController {
+            get {
+                return searchController
+            }
+            set {
+                searchController = newValue
+            }
+        }
         var view_model: CountriesViewModel {
             return viewModel
         }
