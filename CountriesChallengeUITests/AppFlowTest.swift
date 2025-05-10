@@ -137,7 +137,7 @@ final class AppFlowTest: XCTestCase {
         }
     }
     
-    func test_user_lands_on_country_page() async throws {
+    func test_all_countries() async throws {
         
         /*
          we go through entire list of countries, validate all starting from index 0 with offset of 10 which is default
@@ -148,24 +148,24 @@ final class AppFlowTest: XCTestCase {
         await validate_every_country_cell(in: app!, startingIndex: 0, offset: 20)
         
         /* below should cover every single country */
-        //validate_every_country_cell(in: app!, startingIndex: 1, offset: 20)
-        //validate_every_country_cell(in: app!, startingIndex: 2, offset: 20)
-        //validate_every_country_cell(in: app!, startingIndex: 3, offset: 20)
-        //validate_every_country_cell(in: app!, startingIndex: 4, offset: 20)
-        //validate_every_country_cell(in: app!, startingIndex: 5, offset: 20)
-        //validate_every_country_cell(in: app!, startingIndex: 6, offset: 20)
-        //validate_every_country_cell(in: app!, startingIndex: 7, offset: 20)
-        //validate_every_country_cell(in: app!, startingIndex: 8, offset: 20)
-        //validate_every_country_cell(in: app!, startingIndex: 9, offset: 20)
-        //validate_every_country_cell(in: app!, startingIndex: 10, offset: 20)
-        //validate_every_country_cell(in: app!, startingIndex: 11, offset: 20)
-        //validate_every_country_cell(in: app!, startingIndex: 12, offset: 20)
-        //validate_every_country_cell(in: app!, startingIndex: 13, offset: 20)
-        //validate_every_country_cell(in: app!, startingIndex: 14, offset: 20)
-        //validate_every_country_cell(in: app!, startingIndex: 15, offset: 20)
-        //validate_every_country_cell(in: app!, startingIndex: 16, offset: 20)
-        //validate_every_country_cell(in: app!, startingIndex: 17, offset: 20)
-        //validate_every_country_cell(in: app!, startingIndex: 18, offset: 20)
-        //validate_every_country_cell(in: app!, startingIndex: 19, offset: 20)
+        //await validate_every_country_cell(in: app!, startingIndex: 1, offset: 20)
+        //await validate_every_country_cell(in: app!, startingIndex: 2, offset: 20)
+        //await validate_every_country_cell(in: app!, startingIndex: 3, offset: 20)
+        //await validate_every_country_cell(in: app!, startingIndex: 4, offset: 20)
+        //await validate_every_country_cell(in: app!, startingIndex: 5, offset: 20)
+        //await validate_every_country_cell(in: app!, startingIndex: 6, offset: 20)
+        //await validate_every_country_cell(in: app!, startingIndex: 7, offset: 20)
+        //await validate_every_country_cell(in: app!, startingIndex: 8, offset: 20)
+        //await validate_every_country_cell(in: app!, startingIndex: 9, offset: 20)
+        //await validate_every_country_cell(in: app!, startingIndex: 10, offset: 20)
+        //await validate_every_country_cell(in: app!, startingIndex: 11, offset: 20)
+        //await validate_every_country_cell(in: app!, startingIndex: 12, offset: 20)
+        //await validate_every_country_cell(in: app!, startingIndex: 13, offset: 20)
+        //await validate_every_country_cell(in: app!, startingIndex: 14, offset: 20)
+        //await validate_every_country_cell(in: app!, startingIndex: 15, offset: 20)
+        //await validate_every_country_cell(in: app!, startingIndex: 16, offset: 20)
+        //await validate_every_country_cell(in: app!, startingIndex: 17, offset: 20)
+        //await validate_every_country_cell(in: app!, startingIndex: 18, offset: 20)
+        //await validate_every_country_cell(in: app!, startingIndex: 19, offset: 20)
     }
 }
