@@ -49,6 +49,7 @@ final class AppFlowTest: XCTestCase {
     
     private var app: XCUIApplication?
     private var all_countries: [Country]?
+    private var countriesButton: XCUIElement?
     
     override func setUpWithError() throws {
         try super.setUpWithError()
@@ -57,6 +58,7 @@ final class AppFlowTest: XCTestCase {
         app!.launchArguments += ["-UITestSpeedFast"]
         app!.launch()
         app!.activate()
+        countriesButton = app!/*@START_MENU_TOKEN@*/.buttons["Countries"]/*[[".navigationBars.buttons[\"Countries\"]",".buttons.firstMatch",".buttons[\"Countries\"]"],[[[-1,2],[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
     }
 
     override func tearDownWithError() throws {
@@ -82,7 +84,7 @@ final class AppFlowTest: XCTestCase {
         return []
     }
     
-    func validate_every_country_cell(in app: XCUIApplication, startingIndex: Int, offset: Int = 10) {
+    func validate_every_country_cell(in app: XCUIApplication, startingIndex: Int, offset: Int = 10) async {
         
         all_countries = manually_import_countries()
         let maxSwipes = 5
@@ -96,29 +98,56 @@ final class AppFlowTest: XCTestCase {
             let current_element = app.staticTexts["\(currentCountry.name), \(currentCountry.region)"]
             
             swipes = 0
-            while (!current_element.exists || !current_element.isHittable) && swipes < maxSwipes {
-                print("swiping up!")
+            var elDoesNotExist = (!current_element.exists || !current_element.isHittable)
+            while elDoesNotExist && swipes < maxSwipes {
                 DispatchQueue.main.async {
                     scrollView.swipeUp()
                 }
                 swipes += 1
+                elDoesNotExist = (!current_element.exists || !current_element.isHittable)
                 sleep(1)
             }
             
             XCTAssertTrue(current_element.exists && current_element.isHittable, "Country element \(currentCountry.name) not found after \(maxSwipes) swipes.")
+            await validate_cell_details(el: current_element, currentCountry: currentCountry)
+        }
+    }
+    
+    func validate_cell_details(el: XCUIElement, currentCountry: Country) async {
+        let exists = await el.waitForExistence(timeout: 5)
+        if exists && el.isHittable {
+            DispatchQueue.main.async {
+                el.tap()
+            }
+        } else {
+            XCTFail("Element not tappable")
+        }
+        
+        let details1 = await app?.staticTexts["\(currentCountry.name), \(currentCountry.region)"]
+        let details2 = await app?.staticTexts["\(currentCountry.code)"]
+        let details3 = await app?.staticTexts["\(currentCountry.capital)"]
+        
+        // validate details
+        XCTAssertTrue(details1!.exists && details1!.isHittable)
+        XCTAssertTrue(details2!.exists && details2!.isHittable)
+        XCTAssertTrue(details3!.exists && details3!.isHittable)
+        
+        DispatchQueue.main.async {
+            self.countriesButton!.tap()
         }
     }
     
     func test_user_lands_on_country_page() async throws {
         
-        // we go through entire list of countries, validate all starting from index 0 with offset of 10 which is default
-        // if we want to cover entire list, just keep changing index until index == offset
-        // etc) for startingIndex in 0...offset -> validate_every_country_cell(in: app!, startingIndex: startingIndex)
+        /*
+         we go through entire list of countries, validate all starting from index 0 with offset of 10 which is default
+         if we want to cover entire list, just keep changing index until index == offset
+         etc) for startingIndex in 0...offset -> validate_every_country_cell(in: app!, startingIndex: startingIndex)
+        */
         
-        validate_every_country_cell(in: app!, startingIndex: 0, offset: 20)
+        await validate_every_country_cell(in: app!, startingIndex: 0, offset: 20)
         
-        // below should cover every single country
-        
+        /* below should cover every single country */
         //validate_every_country_cell(in: app!, startingIndex: 1, offset: 20)
         //validate_every_country_cell(in: app!, startingIndex: 2, offset: 20)
         //validate_every_country_cell(in: app!, startingIndex: 3, offset: 20)
