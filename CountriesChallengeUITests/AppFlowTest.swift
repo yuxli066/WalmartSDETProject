@@ -137,13 +137,11 @@ final class AppFlowTest: XCTestCase {
         }
     }
     
+    /*
+      if we want to cover entire list, just keep changing index until index == offset
+      etc) for startingIndex in 0...offset -> validate_every_country_cell(in: app!, startingIndex: startingIndex)
+    */
     func test_all_countries() async throws {
-        
-        /*
-         we go through entire list of countries, validate all starting from index 0 with offset of 10 which is default
-         if we want to cover entire list, just keep changing index until index == offset
-         etc) for startingIndex in 0...offset -> validate_every_country_cell(in: app!, startingIndex: startingIndex)
-        */
         
         await validate_every_country_cell(in: app!, startingIndex: 0, offset: 20)
         
