@@ -40,8 +40,9 @@ CountryDetailViewController.swift:
 
 <img width="1920" alt="CountryDetailViewController" src="https://github.com/user-attachments/assets/41b90bb6-5cc8-4d2a-8c37-150e938232e9" />
 
+Video: 
 
-NOTE: Some minor code changes are not in the screen shots above. 
+https://github.com/user-attachments/assets/a3540181-ca6c-4136-8b88-130ec6128a71
 
 ### UI tests
 * Write UI tests for all the screens (countries list and country detail) to check proper functionality.
