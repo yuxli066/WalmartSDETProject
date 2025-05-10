@@ -13,9 +13,10 @@ Take a look at the reports below.
 <img width="1920" alt="Overall Coverage 88%" src="https://github.com/user-attachments/assets/83d25bec-dccc-4e41-9aaf-bbb2c11c8680" />
 <img width="1920" alt="14 Tests Total" src="https://github.com/user-attachments/assets/66da69e5-ed25-45e6-bf66-002491be35af" />
 
-I also made many changes to the source code to allow tests to be integrated. Below you will find the following changes. 
+Source Code Changes:
 
-I had to rework some functions to modularize guards, and also add getters/setters for certain private member variables to allow tests to be integrated. 
+* Reworked some functions to modularize guards
+* Added getters/setters to some private member variables to allow access from unit tests
 
 CountriesService.swift:
 
@@ -39,7 +40,7 @@ CountriesViewModel.swift:
 
 <img width="1920" alt="CountryViewModel" src="https://github.com/user-attachments/assets/80b688bc-abe3-45f3-aad6-44799680a91e" />
 
-Along with the images above, other minor changes were made as well. 
+NOTE: Some minor code changes are not in the screen shots above. 
 
 ### UI tests
 * Write UI tests for all the screens (countries list and country detail) to check proper functionality.
