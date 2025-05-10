@@ -27,6 +27,10 @@ CountriesViewController.swift:
 
 <img width="1920" alt="CountriesViewController_Debug" src="https://github.com/user-attachments/assets/93181fe9-b0ab-4584-8f80-c732bf9713f4" />
 
+Dependency Injection -> CountryViewModel for unit testing: 
+
+<img width="1920" alt="Screenshot 2025-05-09 at 11 02 07 PM" src="https://github.com/user-attachments/assets/0ff5c631-fa4e-4c5f-9315-fcb2390b14a5" />
+
 CountryCell.swift: 
 
 <img width="1920" alt="CountryCell" src="https://github.com/user-attachments/assets/b617334b-184e-4c30-a466-fb17c9839403" />
@@ -36,9 +40,6 @@ CountryDetailViewController.swift:
 
 <img width="1920" alt="CountryDetailViewController" src="https://github.com/user-attachments/assets/41b90bb6-5cc8-4d2a-8c37-150e938232e9" />
 
-CountriesViewModel.swift: 
-
-<img width="1920" alt="CountryViewModel" src="https://github.com/user-attachments/assets/80b688bc-abe3-45f3-aad6-44799680a91e" />
 
 NOTE: Some minor code changes are not in the screen shots above. 
 
