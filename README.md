@@ -46,9 +46,6 @@ NOTE: Some minor code changes are not in the screen shots above.
 * Write UI tests for all the screens (countries list and country detail) to check proper functionality.
 * Bonus points: Write UI tests for the search functionality.
 
-# Acceptance criteria:
-* A minimum of 80% test coverage is expected. Bonus points for 90%+ coverage.
-
 # Solution: 
 
 I implemented UI automation tests to: 
@@ -58,6 +55,11 @@ I implemented UI automation tests to:
   * test search functionality
 
 video: 
+
+
+
+# Acceptance criteria:
+* A minimum of 80% test coverage is expected. Bonus points for 90%+ coverage.
 
 # NOTES
 * The current implementation may require some refactoring to be properly testable.
