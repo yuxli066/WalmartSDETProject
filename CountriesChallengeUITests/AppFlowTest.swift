@@ -108,7 +108,8 @@ final class AppFlowTest: XCTestCase {
                 sleep(1)
             }
             
-            XCTAssertTrue(current_element.exists && current_element.isHittable, "Country element \(currentCountry.name) not found after \(maxSwipes) swipes.")
+            let res = current_element.waitForExistence(timeout: 5)
+            XCTAssertTrue(res)
             validate_cell_details(el: current_element, currentCountry: currentCountry)
         }
     }
@@ -126,6 +127,10 @@ final class AppFlowTest: XCTestCase {
         let details1 = app?.staticTexts["\(currentCountry.name), \(currentCountry.region)"]
         let details2 = app?.staticTexts["\(currentCountry.code)"]
         let details3 = app?.staticTexts["\(currentCountry.capital)"]
+        
+        _ = details1!.waitForExistence(timeout: 5)
+        _ = details2!.waitForExistence(timeout: 5)
+        _ = details3!.waitForExistence(timeout: 5)
         
         // validate details
         XCTAssertTrue(details1!.exists && details1!.isHittable)
