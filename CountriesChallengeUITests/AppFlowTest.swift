@@ -182,6 +182,12 @@ final class AppFlowTest: XCTestCase {
             name: "Andorra",
             region: "EU"
         )
+        
+        let scrollView = app!.tables.firstMatch
+        DispatchQueue.main.async {
+            scrollView.swipeDown(velocity: .fast)
+        }
+        
         let searchField = app!.searchFields.firstMatch
         let searchFieldExists = searchField.exists;
         XCTAssertTrue(searchFieldExists, "Search bar not found")
@@ -208,6 +214,12 @@ final class AppFlowTest: XCTestCase {
             name: "United States of America",
             region: "NA"
         )
+        
+        let scrollView = app!.tables.firstMatch
+        DispatchQueue.main.async {
+            scrollView.swipeDown(velocity: .fast)
+        }
+        
         let searchField = app!.searchFields.firstMatch
         let searchFieldExists = searchField.exists;
         XCTAssertTrue(searchFieldExists, "Search bar not found")
