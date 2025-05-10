@@ -5,12 +5,15 @@
 * Write unit tests to sanity check all view controllers and custom views ([country cell](./CountriesChallenge/Views/CountryCell.swift)).
 * Bonus points: Write unit tests for the networking code.
 
+# Overall Coverage: 93%
+
+<img width="1920" alt="overall_coverage_93" src="https://github.com/user-attachments/assets/14ec95be-66d0-476f-afef-2c933757e6c3" />
+
 # Solution:
-I created 14 Unit Tests to cover 88% of all functions form this project. 
+I created 14 Unit Tests.
 
-Take a look at the reports below. 
+Unit Tests: 
 
-<img width="1920" alt="Overall Coverage 88%" src="https://github.com/user-attachments/assets/83d25bec-dccc-4e41-9aaf-bbb2c11c8680" />
 <img width="1920" alt="14 Tests Total" src="https://github.com/user-attachments/assets/66da69e5-ed25-45e6-bf66-002491be35af" />
 
 Source Code Changes:
@@ -53,8 +56,8 @@ https://github.com/user-attachments/assets/a3540181-ca6c-4136-8b88-130ec6128a71
 I implemented UI automation tests to: 
   * scroll through every country
   * validate every cell element
-  * click every cell and validate details
-  * test search functionality
+  * click every cell and validate details for every country
+  * validate search functionality
 
 All UI Tests Video: 
 
