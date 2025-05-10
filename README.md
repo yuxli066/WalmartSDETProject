@@ -54,13 +54,12 @@ I implemented UI automation tests to:
   * click every cell and validate details
   * test search functionality
 
-video: 
+All UI Tests Video: 
 
-
+https://github.com/user-attachments/assets/785e624f-2e18-4071-a01a-8509df3fd2bb
 
 # Acceptance criteria:
 * A minimum of 80% test coverage is expected. Bonus points for 90%+ coverage.
 
 # NOTES
 * The current implementation may require some refactoring to be properly testable.
-* Please zip up your Xcode project and email it — do not post on GitHub. Thanks.
