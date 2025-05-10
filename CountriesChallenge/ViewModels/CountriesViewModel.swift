@@ -23,11 +23,4 @@ class CountriesViewModel {
             }
         }
     }
-    
-    #if DEBUG
-    func cancelAllTasks() {
-        _countryTask?.cancel()
-        _countryTask = nil
-    }
-    #endif
 }

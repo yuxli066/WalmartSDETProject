@@ -7,7 +7,7 @@ import Combine
 import UIKit
 
 class CountriesViewController: UIViewController {
-    private let viewModel = CountriesViewModel()
+    private let viewModel:CountriesViewModel
 
     private lazy var refreshControl: UIRefreshControl = {
         let control = UIRefreshControl()
@@ -91,9 +91,9 @@ class CountriesViewController: UIViewController {
 
     private var tasks = Set<AnyCancellable>()
 
-    init() {
+    init(viewModel: CountriesViewModel = CountriesViewModel()) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-
         title = "Countries"
         tableView.register(CountryCell.self, forCellReuseIdentifier: CountryCell.identifier)
         searchController.hidesNavigationBarDuringPresentation = true

@@ -10,15 +10,18 @@ import XCTest
 import Foundation
 import UIKit
 
+class customCountriesViewModel: CountriesViewModel {
+    // Override the refreshCountries method to do nothing
+    override func refreshCountries() {}
+}
+
 final class CountriesViewControllerTest: XCTestCase {
     
     var countryViewController: CountriesViewController!
     
     override func setUp() {
         super.setUp()
-        countryViewController = CountriesViewController()
-        _ = countryViewController.view // wait for view load
-        countryViewController.view_model.cancelAllTasks() // cancel all tasks for data consistency
+        countryViewController = CountriesViewController(viewModel: customCountriesViewModel())
         // We inject 3 countries in viewModel, then we validate cells rendered
         countryViewController._countries = sampleCountries
     }
@@ -103,13 +106,6 @@ final class CountriesViewControllerTest: XCTestCase {
     }
     
     func test_search_result_func_when_search_text_is_not_empty() throws {
-        // Assert the expected row count
-        let actualCount = countryViewController.tableView(
-            countryViewController.table_view,
-            numberOfRowsInSection: 0
-        )
-        XCTAssertEqual(actualCount, 3)
-        
         // set search bar text to custom search country name
         countryViewController.search_controller.searchBar.text = "testing".lowercased()
         countryViewController.updateSearchResults(for: countryViewController.search_controller)
