@@ -118,6 +118,7 @@ final class AppFlowTest: XCTestCase {
         validate_every_country_cell(in: app!, startingIndex: 0, offset: 20)
         
         // below should cover every single country
+        
         //validate_every_country_cell(in: app!, startingIndex: 1, offset: 20)
         //validate_every_country_cell(in: app!, startingIndex: 2, offset: 20)
         //validate_every_country_cell(in: app!, startingIndex: 3, offset: 20)
